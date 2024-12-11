@@ -1,0 +1,27 @@
+<header>
+  <thead>
+    <th>
+      <mat-icon>home</mat-icon>
+      <span>Home</span>
+    </th>
+    <th>
+      <span>User List</span>
+    </th>
+    <th>
+      <span>Add User</span>
+    </th>
+    @if (!isLogedIn) {
+      <th routerLink="login">
+        <mat-icon>login</mat-icon>
+        <span>Login</span>
+      </th>
+    } @else {
+      <th (click)="openLogoutDialog()">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </th>
+    }
+    
+    
+  </thead>
+</header>

@@ -6,7 +6,7 @@ import userInfo from './costume-type/user-info-type';
   providedIn: 'root',
 })
 export class AuthenticationService {
-  private isLoggedInSubject = new BehaviorSubject<boolean>(true);
+  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
 
   constructor() {
     const { userName, email, authToken } = this.getUserInfoFromLocalStorage();

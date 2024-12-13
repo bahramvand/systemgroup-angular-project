@@ -1,27 +1,25 @@
-<header>
+<header class="slide-in-top">
   <thead>
-    <th>
+    <th routerLink="">
       <mat-icon>home</mat-icon>
       <span>Home</span>
     </th>
-    <th>
+    <th routerLink="users/list">
       <span>User List</span>
     </th>
     <th>
       <span>Add User</span>
     </th>
     @if (!isLogedIn) {
-      <th routerLink="login">
-        <mat-icon>login</mat-icon>
-        <span>Login</span>
-      </th>
+    <th routerLink="login">
+      <mat-icon>login</mat-icon>
+      <span>Login</span>
+    </th>
     } @else {
-      <th (click)="openLogoutDialog()">
-        <mat-icon>logout</mat-icon>
-        <span>Logout</span>
-      </th>
+    <th (click)="openLogoutDialog()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </th>
     }
-    
-    
   </thead>
 </header>

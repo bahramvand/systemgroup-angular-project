@@ -1,23 +1,56 @@
-<form>
-    <mat-form-field>
+<form
+  [formGroup]="loginFormControl"
+  (submit)="onSubmit($event)"
+  class="tilt-in-top-1"
+>
+  <mat-form-field appearance="outline">
     <mat-label>Name</mat-label>
-        <input type="name" matInput [formControl]="nameFormControl" [errorStateMatcher]="matcher"
-               placeholder="Ex. Peter Griffin">
-        @if (nameFormControl.hasError('required')) {
-          <mat-error>Name is <strong>required</strong></mat-error>
-        }
-    </mat-form-field>
-    <mat-form-field>
-        
-      <mat-label>Email</mat-label>
-      <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
-             placeholder="Ex. pat@example.com">
-      @if (emailFormControl.hasError('email') && !emailFormControl.hasError('required')) {
-        <mat-error>Please enter a valid email address</mat-error>
-      }
-      @if (emailFormControl.hasError('required')) {
-        <mat-error>Email is <strong>required</strong></mat-error>
-      }
-    </mat-form-field>
-  </form>
-  
+    <input
+      type="name"
+      matInput
+      formControlName="nameFormControl"
+      [errorStateMatcher]="matcher"
+      placeholder="Ex. Peter Griffin"
+    />
+    @if (loginFormControl.controls.nameFormControl.hasError('required')) {
+    <mat-error>Name is <strong>required</strong></mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input
+      type="email"
+      matInput
+      formControlName="emailFormControl"
+      [errorStateMatcher]="matcher"
+      placeholder="Ex. pat@example.com"
+    />
+    @if (loginFormControl.controls.emailFormControl.hasError('email') &&
+    !loginFormControl.controls.emailFormControl.hasError('required')) {
+    <mat-error>Please enter a valid email address</mat-error>
+    } @if (loginFormControl.controls.emailFormControl.hasError('required')) {
+    <mat-error>Email is <strong>required</strong></mat-error>
+    }
+  </mat-form-field>
+  <div class="example-flex-container">
+    <div class="example-button-container">
+      <button
+        mat-fab
+        extended
+        [ngClass]="{
+          danger:
+            loginFormControl.controls.nameFormControl.touched &&
+            loginFormControl.controls.emailFormControl.touched &&
+              (loginFormControl.controls.emailFormControl.hasError('email') ||
+                loginFormControl.controls.emailFormControl.hasError(
+                  'required'
+                ) ||
+                loginFormControl.controls.nameFormControl.hasError('required'))
+        }"
+      >
+        Log in
+        <mat-icon>login</mat-icon>
+      </button>
+    </div>
+  </div>
+</form>

@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
 import userType from '../../costume-type/user-list-type';
 import { MatTableModule } from '@angular/material/table';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { AuthenticationService } from '../../authentication.service';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
@@ -15,6 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatIconModule,
     MatIconModule,
     MatButtonModule,
+    MatExpansionModule,
     CommonModule,
   ],
   templateUrl: './user-list.component.html',
@@ -22,10 +24,12 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class UserListComponent implements OnInit {
   list: userType[] = [];
-  displayedColumns: string[] = ['username', 'role', 'actions'];
-  dataSource = new MatTableDataSource<userType>(this.list);
 
-  constructor(private auth: AuthenticationService, private http: HttpClient) {}
+  constructor(
+    private auth: AuthenticationService,
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.http
@@ -36,18 +40,16 @@ export class UserListComponent implements OnInit {
       })
       .subscribe({
         next: (data: any) => {
+          console.log(data);
           this.list = Object.values(data);
-          this.dataSource = new MatTableDataSource(this.list);
         },
       });
   }
 
-  onRowClick(user: userType): void {
-    alert(`User clicked: ${user.username}`);
-  }
-
   onEdit(user: userType): void {
-    alert(`Edit User: ${user.username}`);
+    this.router.navigate(['users/edit-user'], {
+      queryParams: { user: JSON.stringify(user) },
+    });
   }
 
   onDelete(user: userType): void {

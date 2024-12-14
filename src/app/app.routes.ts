@@ -3,6 +3,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { authguardGuard } from './auth/authguard.guard';
 import { HomeComponent } from './home/home.component';
 import { UserListComponent } from './users/user-list/user-list.component';
+import { EditUserComponent } from './users/edit-user/edit-user.component';
 
 export const routes: Routes = [
   {
@@ -18,6 +19,10 @@ export const routes: Routes = [
   },
   {
     path: 'users/list',
-    component: UserListComponent
-  }
+    component: UserListComponent,
+  },
+  {
+    path: 'users/edit-user',
+    component: EditUserComponent,
+  },
 ];

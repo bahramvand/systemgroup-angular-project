@@ -1,9 +1,14 @@
 import userRole from './user-role';
 
 type userType = {
+  id: number;
   username: string;
-  password: string;
   role: userRole;
+  firstName: string;
+  lastName: string;
+  mobile: string;
+  nationalCode: string;
+  password: string;
 };
 
 export default userType;

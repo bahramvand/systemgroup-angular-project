@@ -25,10 +25,10 @@ form {
   button {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
     background-color: $primary-color;
     color: #fff;
-
+    font-size: medium;
     &.danger {
       background-color: $danger-color;
       color: #fff;

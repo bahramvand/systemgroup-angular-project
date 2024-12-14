@@ -17,19 +17,24 @@
     }
   </mat-form-field>
   <mat-form-field appearance="outline">
-    <mat-label>Email</mat-label>
+    <mat-label>Enter your password</mat-label>
     <input
-      type="email"
       matInput
-      formControlName="emailFormControl"
-      [errorStateMatcher]="matcher"
-      placeholder="Ex. pat@example.com"
+      [type]="hide() ? 'password' : 'text'"
+      formControlName="passowrd"
     />
-    @if (loginFormControl.controls.emailFormControl.hasError('email') &&
-    !loginFormControl.controls.emailFormControl.hasError('required')) {
-    <mat-error>Please enter a valid email address</mat-error>
-    } @if (loginFormControl.controls.emailFormControl.hasError('required')) {
-    <mat-error>Email is <strong>required</strong></mat-error>
+    <button
+      mat-icon-button
+      matSuffix
+      (click)="clickEvent($event)"
+      [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="hide()"
+    >
+      <mat-icon>{{
+        hide() ? "visibility_off" : "visibility"
+      }}</mat-icon></button
+    >@if (loginFormControl.controls.passowrd.hasError('required')) {
+    <mat-error>Passowrd is <strong>required</strong></mat-error>
     }
   </mat-form-field>
   <div class="example-flex-container">
@@ -40,12 +45,9 @@
         [ngClass]="{
           danger:
             loginFormControl.controls.nameFormControl.touched &&
-            loginFormControl.controls.emailFormControl.touched &&
-              (loginFormControl.controls.emailFormControl.hasError('email') ||
-                loginFormControl.controls.emailFormControl.hasError(
-                  'required'
-                ) ||
-                loginFormControl.controls.nameFormControl.hasError('required'))
+            loginFormControl.controls.passowrd.touched &&
+            (loginFormControl.controls.passowrd.hasError('required') ||
+              loginFormControl.controls.nameFormControl.hasError('required'))
         }"
       >
         Log in

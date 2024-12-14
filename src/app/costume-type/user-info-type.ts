@@ -1,7 +1,7 @@
-type userInfo = {
-    name: string,
-    email: string,
-    authToken: string,
-}
+type userInfoForLogin = {
+  username: string;
+  passowrd: string;
+  sessionId: string;
+};
 
-export default userInfo;
+export default userInfoForLogin;

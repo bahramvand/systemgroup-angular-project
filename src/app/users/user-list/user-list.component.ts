@@ -1,69 +1,56 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import userType from '../../costume-type/user-list-type';
-import userRole from '../../costume-type/user-role';
 import { MatTableModule } from '@angular/material/table';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { AuthenticationService } from '../../authentication.service';
+import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-user-list',
-  imports: [MatTableModule],
+  imports: [
+    MatTableModule,
+    MatIconModule,
+    MatIconModule,
+    MatButtonModule,
+    CommonModule,
+  ],
   templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.scss',
+  styleUrls: ['./user-list.component.scss'],
 })
-export class UserListComponent {
-  list: userType[] = [
-    {
-      id: 1,
-      firstName: 'John',
-      lastName: 'Doe',
-      role: userRole.Admin,
-      nationalId: '1234567890',
-      mobile: '09123456789',
-      username: 'john.doe',
-    },
-    {
-      id: 2,
-      firstName: 'Jane',
-      lastName: 'Smith',
-      role: userRole.User,
-      nationalId: '0987654321',
-      mobile: '09119876543',
-      username: 'jane.smith',
-    },
-    {
-      id: 3,
-      firstName: 'Ali',
-      lastName: 'Rezaei',
-      role: userRole.User,
-      nationalId: '1122334455',
-      mobile: '09351234567',
-      username: 'ali.rezaei',
-    },
-    {
-      id: 4,
-      firstName: 'Sara',
-      lastName: 'Ahmadi',
-      role: userRole.Admin,
-      nationalId: '5566778899',
-      mobile: '09131234567',
-      username: 'sara.ahmadi',
-    },
-    {
-      id: 5,
-      firstName: 'Michael',
-      lastName: 'Johnson',
-      role: userRole.Admin,
-      nationalId: '2233445566',
-      mobile: '09141234567',
-      username: 'michael.j',
-    },
-  ];
+export class UserListComponent implements OnInit {
+  list: userType[] = [];
+  displayedColumns: string[] = ['username', 'role', 'actions'];
+  dataSource = new MatTableDataSource<userType>(this.list);
 
-  deleteUser(userId: number): void {
-    this.list = this.list.filter((user) => user.id !== userId);
+  constructor(private auth: AuthenticationService, private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.http
+      .get('http://localhost:3000/api/users', {
+        headers: {
+          authorization: this.auth.getAuthTokenFromLocalStorage()!,
+        },
+      })
+      .subscribe({
+        next: (data: any) => {
+          this.list = Object.values(data);
+          this.dataSource = new MatTableDataSource(this.list);
+        },
+      });
   }
 
-  editUser(userId: number): void {
-    console.log('Editing user with ID:', userId);
-    // Implement edit logic here
+  onRowClick(user: userType): void {
+    alert(`User clicked: ${user.username}`);
+  }
+
+  onEdit(user: userType): void {
+    alert(`Edit User: ${user.username}`);
+  }
+
+  onDelete(user: userType): void {
+    alert(`Delete User: ${user.username}`);
   }
 }

@@ -1,13 +1,43 @@
-.user-list-container {
-  max-width: 80vw;
-  min-width: 600px;
-  margin: 32px auto;
-}
+.user-list {
+  margin: 64px auto;
+  width: 90%;
+  max-width: 1200px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
-table {
-  width: 100%;
-}
+  mat-table {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
 
-tr:hover {
-  background-color: #f1f1f1;
+    mat-header-row {
+      background-color: #3f51b5;
+      color: white;
+      font-weight: bold;
+      font-size: 1.3rem;
+    }
+
+    mat-row {
+      background-color: white;
+      transition: background-color 0.3s ease;
+      border-bottom: 1px solid #e0e0e0;
+
+      &:hover {
+        background-color: #e0f7fa;
+        cursor: pointer;
+      }
+    }
+
+    mat-cell,
+    mat-header-cell {
+      padding: 16px;
+      text-align: left;
+    }
+
+    mat-cell {
+      font-size: 1rem;
+      color: #555;
+    }
+  }
 }

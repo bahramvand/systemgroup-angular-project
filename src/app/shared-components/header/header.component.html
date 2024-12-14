@@ -4,13 +4,14 @@
       <mat-icon>home</mat-icon>
       <span>Home</span>
     </th>
+    @if (isLogedIn) {
     <th routerLink="users/list">
       <span>User List</span>
     </th>
     <th>
       <span>Add User</span>
     </th>
-    @if (!isLogedIn) {
+    } @if (!isLogedIn) {
     <th routerLink="login">
       <mat-icon>login</mat-icon>
       <span>Login</span>

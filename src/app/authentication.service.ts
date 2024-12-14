@@ -1,43 +1,46 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import userInfo from './costume-type/user-info-type';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  private apiUrl = 'http://localhost:3000/api';
 
-  constructor() {
-    const { userName, email, authToken } = this.getUserInfoFromLocalStorage();
-
-    if (userName && email && authToken) {
+  constructor(private http: HttpClient) {
+    const authToken = this.getAuthTokenFromLocalStorage();
+    if (authToken) {
       this.isLoggedInSubject.next(true);
     }
   }
 
-  private getUserInfoFromLocalStorage() {
-    const userName = localStorage.getItem('userName');
-    const email = localStorage.getItem('email');
-    const authToken = localStorage.getItem('authToken');
-    return {
-      userName,
-      email,
-      authToken,
-    };
+  getAuthTokenFromLocalStorage(): string | null {
+    return localStorage.getItem('authToken');
   }
 
-  login(userData: userInfo): void {
-    localStorage.setItem('authToken', userData.authToken);
-    localStorage.setItem('userName', userData.name);
-    localStorage.setItem('email', userData.email);
-    this.isLoggedInSubject.next(true);
+  login(username: string, password: string): Observable<string> {
+    const loginData = { username, password };
+    return new Observable((observer) => {
+      this.http
+        .post(`${this.apiUrl}/auth`, loginData, { responseType: 'text' })
+        .subscribe({
+          next: (token: string) => {
+            localStorage.setItem('authToken', token);
+            this.isLoggedInSubject.next(true);
+            observer.next(token);
+            observer.complete();
+          },
+          error: (err) => {
+            observer.error(err);
+          },
+        });
+    });
   }
 
   logout(): void {
     localStorage.removeItem('authToken');
-    localStorage.removeItem('userName');
-    localStorage.removeItem('email');
     this.isLoggedInSubject.next(false);
   }
 
@@ -45,11 +48,14 @@ export class AuthenticationService {
     return this.isLoggedInSubject.asObservable();
   }
 
-  getUserInfo(): userInfo | null {
-    const { userName, email, authToken } = this.getUserInfoFromLocalStorage();
-    if (!userName || !email || !authToken) {
-      return null;
+  getCurrentUser(): Observable<any> {
+    const authToken = this.getAuthTokenFromLocalStorage();
+    if (!authToken) {
+      throw new Error('User is not authenticated');
     }
-    return { name: userName, email: email, authToken: authToken };
+
+    return this.http.get(`${this.apiUrl}/users/current`, {
+      headers: { authorization: authToken },
+    });
   }
 }

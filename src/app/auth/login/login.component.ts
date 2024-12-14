@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import {
   FormControl,
   FormGroupDirective,
@@ -13,8 +13,12 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AuthenticationService } from '../../authentication.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+
 import { NgClass } from '@angular/common';
 import { Router } from '@angular/router';
+import userInfoForLogin from '../../costume-type/user-info-type';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -38,8 +42,9 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatIcon,
     NgClass,
+    MatIconModule,
+    MatButtonModule,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
@@ -47,13 +52,20 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class LoginComponent {
   constructor(private auth: AuthenticationService, private rout: Router) {}
 
+  hide = signal(true);
+  clickEvent(event: MouseEvent) {
+    event.preventDefault();
+    this.hide.set(!this.hide());
+    event.stopPropagation();
+  }
+
   loginFormControl: FormGroup<{
-    emailFormControl: FormControl<string>;
+    passowrd: FormControl<string>;
     nameFormControl: FormControl<string>;
   }> = new FormGroup({
-    emailFormControl: new FormControl('', {
+    passowrd: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.required, Validators.email],
+      validators: [Validators.required],
     }),
     nameFormControl: new FormControl('', {
       nonNullable: true,
@@ -66,15 +78,20 @@ export class LoginComponent {
   onSubmit(e: SubmitEvent) {
     e.preventDefault();
     if (this.loginFormControl.valid) {
-      const userData = {
-        name: this.loginFormControl.controls['nameFormControl'].value,
-        email: this.loginFormControl.controls['emailFormControl'].value,
-        authToken: '1234567890',
-      };
-      this.auth.login(userData);
-      this.rout.navigate(['']);
+      const username = this.loginFormControl.controls.nameFormControl.value;
+      const passowrd = this.loginFormControl.controls.passowrd.value;
+
+      this.auth.login(username, passowrd).subscribe({
+        next: (token) => {
+          console.log('Logged in successfully', token);
+          this.rout.navigate(['']);
+        },
+        error: (err) => {
+          console.error('Login failed', err);
+        },
+      });
     } else {
-      console.log(this.loginFormControl.valid);
+      // console.log(this.loginFormControl.valid);
     }
   }
 }

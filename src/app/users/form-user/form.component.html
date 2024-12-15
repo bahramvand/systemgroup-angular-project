@@ -1,0 +1,121 @@
+<form
+  [formGroup]="editFormControl"
+  (submit)="onSubmit($event)"
+  class="tilt-in-top-1"
+>
+  <mat-form-field appearance="outline">
+    <mat-label>User name</mat-label>
+    <input
+      type="text"
+      matInput
+      formControlName="username"
+      [errorStateMatcher]="matcher"
+      placeholder="Ex. Peter Griffin"
+    />
+    @if (editFormControl.controls.username.hasError('required')) {
+    <mat-error>User name is <strong>required</strong></mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>First name</mat-label>
+    <input
+      type="text"
+      matInput
+      formControlName="firstName"
+      [errorStateMatcher]="matcher"
+      placeholder="Ex. Peter"
+    />
+    @if (editFormControl.controls.firstName.hasError('required')) {
+    <mat-error>Name is <strong>required</strong></mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Last name</mat-label>
+    <input
+      type="text"
+      matInput
+      formControlName="lastName"
+      [errorStateMatcher]="matcher"
+      placeholder="Ex. Griffin"
+    />
+    @if (editFormControl.controls.lastName.hasError('required')) {
+    <mat-error>Name is <strong>required</strong></mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Telephone</mat-label>
+    <span matTextPrefix>+98 &nbsp;</span>
+    <input
+      type="tel"
+      matInput
+      placeholder="912-345-6789"
+      formControlName="mobile"
+      [errorStateMatcher]="matcher"
+    />
+    <mat-icon matSuffix>mode_edit</mat-icon>
+    @if (editFormControl.controls.mobile.errors) {
+    <mat-error>mobile number is <strong>Invalid</strong></mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>National number</mat-label>
+    <input
+      type="text"
+      matInput
+      formControlName="nationalCode"
+      [errorStateMatcher]="matcher"
+      placeholder="Ex. 0123456789"
+    />
+    @if (editFormControl.controls.nationalCode.errors) {
+    <mat-error>National number number is <strong>10 digit</strong></mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Choose one</mat-label>
+    <mat-select formControlName="role" [errorStateMatcher]="selectmatcher">
+      <mat-option value="Admin">Admin</mat-option>
+      <mat-option value="User">User</mat-option>
+    </mat-select>
+    @if (editFormControl.controls.role.hasError('required')) {
+    <mat-error>You must make a selection</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Password</mat-label>
+    <input
+      matInput
+      [type]="hide() ? 'password' : 'text'"
+      formControlName="password"
+    />
+    <button
+      mat-icon-button
+      matSuffix
+      (click)="clickEvent($event)"
+      [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="hide()"
+    >
+      <mat-icon>{{
+        hide() ? "visibility_off" : "visibility"
+      }}</mat-icon></button
+    >@if (editFormControl.controls.password.hasError('required')) {
+    <mat-error>Passowrd is <strong>required</strong></mat-error>
+    }
+  </mat-form-field>
+
+  <div class="example-flex-container">
+    <div class="button-container">
+      <button mat-button extended (click)="onCancel($event)">Cancel</button>
+
+      <button mat-flat-button extended>
+        {{ btnText }}
+        <mat-icon>create</mat-icon>
+      </button>
+    </div>
+  </div>
+</form>

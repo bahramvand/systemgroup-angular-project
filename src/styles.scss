@@ -365,8 +365,6 @@ $input-bg-color: #ecf0f1;
 $input-border-color: #bdc3c7;
 
 body {
-  min-height: 100vh;
-  background: linear-gradient(to bottom, $background-color, #f2f2f2) no-repeat;
   color: $text-color-dark;
   font-family: Arial, sans-serif;
   margin: 0;
@@ -475,6 +473,7 @@ table {
 html,
 body {
   height: 100%;
+  background: linear-gradient(to bottom, $background-color, #f2f2f2) no-repeat;
 }
 body {
   margin: 0;

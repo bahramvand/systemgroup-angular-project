@@ -8,7 +8,6 @@ import {
   ReactiveFormsModule,
   FormGroup,
 } from '@angular/forms';
-import { MatIcon } from '@angular/material/icon';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,9 +17,8 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { NgClass } from '@angular/common';
 import { Router } from '@angular/router';
-import userInfoForLogin from '../../costume-type/user-info-type';
 
-export class MyErrorStateMatcher implements ErrorStateMatcher {
+class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
     control: FormControl | null,
     form: FormGroupDirective | NgForm | null

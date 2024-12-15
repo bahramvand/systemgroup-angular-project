@@ -1,6 +1,6 @@
 import userRole from './user-role';
 
-type userType = {
+type queryUserType = {
   id: number;
   username: string;
   role: userRole;
@@ -11,4 +11,4 @@ type userType = {
   password: string;
 };
 
-export default userType;
+export default queryUserType;

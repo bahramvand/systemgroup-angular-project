@@ -32,18 +32,11 @@ export class UserListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.http
-      .get('http://localhost:3000/api/users', {
-        headers: {
-          authorization: this.auth.getAuthTokenFromLocalStorage()!,
-        },
-      })
-      .subscribe({
-        next: (data: any) => {
-          console.log(data);
-          this.list = Object.values(data);
-        },
-      });
+    this.auth.getUsers().subscribe({
+      next: (data: any) => {
+        this.list = Object.values(data);
+      },
+    });
   }
 
   onEdit(user: userType): void {

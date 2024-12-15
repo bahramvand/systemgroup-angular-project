@@ -16,7 +16,15 @@ export class AuthenticationService {
     }
   }
 
-  getAuthTokenFromLocalStorage(): string | null {
+  private getUserRole(): string | null {
+    return localStorage.getItem('userRole');
+  }
+
+  isAdmin(): boolean {
+    return this.getUserRole() === 'Admin';
+  }
+
+  private getAuthTokenFromLocalStorage(): string | null {
     return localStorage.getItem('authToken');
   }
 
@@ -55,6 +63,40 @@ export class AuthenticationService {
     }
 
     return this.http.get(`${this.apiUrl}/users/current`, {
+      headers: { authorization: authToken },
+    });
+  }
+
+  getUsers(): Observable<any> {
+    const authToken = this.getAuthTokenFromLocalStorage();
+    if (!authToken) {
+      throw new Error('User is not authenticated');
+    }
+    return this.http.get('http://localhost:3000/api/users', {
+      headers: {
+        authorization: authToken,
+      },
+    });
+  }
+
+  editUser(data: any): Observable<any> {
+    const authToken = this.getAuthTokenFromLocalStorage();
+    if (!authToken) {
+      throw new Error('User is not authenticated');
+    }
+
+    return this.http.put(`${this.apiUrl}/users`, data, {
+      headers: { authorization: authToken },
+    });
+  }
+
+  createUser(data: any): Observable<any> {
+    const authToken = this.getAuthTokenFromLocalStorage();
+    if (!authToken) {
+      throw new Error('User is not authenticated');
+    }
+
+    return this.http.post(`${this.apiUrl}/users`, data, {
       headers: { authorization: authToken },
     });
   }

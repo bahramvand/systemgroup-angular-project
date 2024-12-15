@@ -15,17 +15,25 @@ import { Subscription } from 'rxjs';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   isLogedIn: boolean = false;
-  private loginStatusSubscription: Subscription = new Subscription;
+  isAdmin: boolean = false;
+
+  private loginStatusSubscription: Subscription = new Subscription();
 
   constructor(
     private auth: AuthenticationService,
-    public dialog: MatDialog ,
+    public dialog: MatDialog,
     private route: Router
   ) {}
 
   ngOnInit(): void {
-    this.loginStatusSubscription = this.auth.isUserLoggedIn().subscribe((status) => {
-      this.isLogedIn = status;
+    this.loginStatusSubscription = this.auth
+      .isUserLoggedIn()
+      .subscribe((status) => {
+        this.isLogedIn = status;
+      });
+    
+    this.auth.isAdmin().subscribe((isAdmin) => {
+      this.isAdmin = isAdmin;
     });
   }
 
@@ -36,16 +44,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   openLogoutDialog(): void {
-    const dialogRef = this.dialog.open(LogoutConfirmationDialogComponent,{
+    const dialogRef = this.dialog.open(LogoutConfirmationDialogComponent, {
       height: '150px',
       width: '500px',
-      
     });
-    
-    dialogRef.afterClosed().subscribe(result => {
+
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.auth.logout(); 
-        this.route.navigate(['/'])
+        this.auth.logout();
+        this.route.navigate(['/']);
       }
     });
   }

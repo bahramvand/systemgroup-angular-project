@@ -19,10 +19,14 @@
         <p><strong>Mobile:</strong> {{ user.mobile }}</p>
         <p><strong>National Code:</strong> {{ user.nationalCode }}</p>
         <p><strong>Password:</strong> {{ user.password }}</p>
+
+        @if (isAdmin) {
         <button mat-raised-button (click)="onEdit(user)">Edit</button>
         <button mat-raised-button class="mat-raised" (click)="onDelete(user)">
           Delete
         </button>
+        }
+        
       </div>
     </mat-expansion-panel>
     }

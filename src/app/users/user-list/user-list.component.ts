@@ -25,6 +25,8 @@ import { Router } from '@angular/router';
 export class UserListComponent implements OnInit {
   list: userType[] = [];
 
+  isAdmin: boolean = false;
+
   constructor(
     private auth: AuthenticationService,
     private http: HttpClient,
@@ -36,6 +38,10 @@ export class UserListComponent implements OnInit {
       next: (data: any) => {
         this.list = Object.values(data);
       },
+    });
+    
+    this.auth.isAdmin().subscribe((isAdmin) => {
+      this.isAdmin = isAdmin;
     });
   }
 

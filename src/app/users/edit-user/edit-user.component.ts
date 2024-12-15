@@ -58,7 +58,7 @@ export class EditUserComponent extends FormUser implements OnInit {
           const { id, ...userData } = this.user;
           this.editFormControl.setValue({
             ...userData,
-            role: userData.role === 1 ? 'Admin' : 'User',
+            role: userData.role === userRole.Admin ? 'Admin' : 'User',
           });
         }
       },

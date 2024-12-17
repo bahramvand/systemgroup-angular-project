@@ -2,6 +2,10 @@ $primary-color: #3498db;
 $danger-color: #e74c3c;
 $initial-color: #bfbfbf;
 
+section {
+  height: calc(100vh - 128px - 64px );
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -9,7 +13,7 @@ form {
   width: 80%;
   max-width: 500px;
   gap: 16px;
-  margin: 10% auto;
+  margin: 128px auto;
   padding: 32px;
 
   background: rgba(255, 255, 255, 0.79);

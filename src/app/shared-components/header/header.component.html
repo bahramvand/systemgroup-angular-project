@@ -12,7 +12,16 @@
     <th routerLink="users/add-user">
       <span>Add User</span>
     </th>
-    } } @if (!isLogedIn) {
+    } 
+    <th routerLink="products/list">
+      <span>Products</span>
+    </th>
+    @if (isAdmin) {
+      <th routerLink="products/add-product">
+        <span>Add product</span>
+      </th>
+    }
+  } @if (!isLogedIn) {
     <th routerLink="login">
       <mat-icon>login</mat-icon>
       <span>Login</span>

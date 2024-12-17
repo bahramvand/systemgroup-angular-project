@@ -369,6 +369,7 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  min-height: 100%;
 }
 
 button {
@@ -472,7 +473,6 @@ table {
 
 html,
 body {
-  height: 100%;
   background: linear-gradient(to bottom, $background-color, #f2f2f2) no-repeat;
 }
 body {

@@ -47,6 +47,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(LogoutConfirmationDialogComponent, {
       height: '150px',
       width: '500px',
+      data: {
+        questionTxt: 'Are you sure you want to log out?',
+        confirmTxt: 'Log out',
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

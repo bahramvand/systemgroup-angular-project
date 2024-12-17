@@ -5,9 +5,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { AuthenticationService } from '../../authentication.service';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { LogoutConfirmationDialogComponent } from '../../shared-components/logout-confirmation-dialog/logout-confirmation-dialog.component';
 
 @Component({
   selector: 'app-user-list',
@@ -28,8 +29,8 @@ export class UserListComponent implements OnInit {
   isAdmin: boolean = false;
 
   constructor(
+    private dialog: MatDialog,
     private auth: AuthenticationService,
-    private http: HttpClient,
     private router: Router
   ) {}
 
@@ -39,7 +40,7 @@ export class UserListComponent implements OnInit {
         this.list = Object.values(data);
       },
     });
-    
+
     this.auth.isAdmin().subscribe((isAdmin) => {
       this.isAdmin = isAdmin;
     });
@@ -51,7 +52,23 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  onDelete(user: userType): void {
-    alert(`Delete User: ${user.username}`);
+  onDelete(id: number): void {
+    const dialogRef = this.dialog.open(LogoutConfirmationDialogComponent, {
+      height: '150px',
+      width: '500px',
+      data: {
+        questionTxt: `Are you sure you want Delete user#${id}?`,
+        confirmTxt: 'Delete',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.auth.deleteUser(id).subscribe({
+          next: (data) => (this.list = Object.values(data)),
+          error: (err) => console.error(err),
+        });
+      }
+    });
   }
 }

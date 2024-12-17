@@ -77,6 +77,9 @@ export class AuthenticationService {
     return this.isAdminSubject.asObservable();
   }
 
+
+  // ===================================================
+
   getCurrentUser(): Observable<any> {
     const authToken = this.getAuthTokenFromLocalStorage();
     if (!authToken) {
@@ -133,16 +136,20 @@ export class AuthenticationService {
     });
   }
 
-  deleteUser(userId: number): Observable<any> {
+
+  deleteUser(productId: number): Observable<any> {
     const authToken = this.getAuthTokenFromLocalStorage();
     if (!authToken) {
       return throwError(() => new Error('User is not authenticated'));
     }
 
-    return this.http.delete(`${this.apiUrl}/users/${userId}`, {
+    return this.http.delete(`${this.apiUrl}/users/${productId}`, {
       headers: { authorization: authToken },
     });
   }
+
+  
+  // ===================================================
 
   deleteProduct(productId: number): Observable<any> {
     const authToken = this.getAuthTokenFromLocalStorage();

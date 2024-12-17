@@ -1,7 +1,7 @@
-<div class="user-list">
+<div class="user-list scale-in-ver-top">
   <mat-accordion>
     @for (user of list; track $index) {
-    <mat-expansion-panel hideToggle>
+    <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title> # {{ user.id }} </mat-panel-title>
         <mat-panel-description>
@@ -22,13 +22,15 @@
 
         @if (isAdmin) {
         <button mat-raised-button (click)="onEdit(user)">Edit</button>
-        <button mat-raised-button class="mat-raised" (click)="onDelete(user)">
+        <button mat-raised-button class="mat-raised" (click)="onDelete(user.id)">
           Delete
         </button>
         }
         
       </div>
     </mat-expansion-panel>
+    } @empty {
+      <h1>We have no Users yet</h1>
     }
   </mat-accordion>
 </div>

@@ -1,0 +1,61 @@
+<div>
+  <form
+    [formGroup]="editFormControl"
+    (submit)="onSubmit($event)"
+    class="form-container tilt-in-top-1"
+
+  >
+    <mat-form-field appearance="outline">
+      <mat-label>Product Name</mat-label>
+      <input
+        type="text"
+        matInput
+        formControlName="name"
+        [errorStateMatcher]="matcher"
+        placeholder="Enter product name"
+      />
+      @if(editFormControl.controls.name.hasError('required')){
+      <mat-error> Product name is <strong>required</strong> </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Product Code</mat-label>
+      <input
+        type="text"
+        matInput
+        formControlName="code"
+        [errorStateMatcher]="matcher"
+        placeholder="Enter product code"
+      />
+      @if(editFormControl.controls.code.hasError('required')){
+      <mat-error> Product code is <strong>required</strong> </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Weight</mat-label>
+      <input
+        type="number"
+        matInput
+        formControlName="weight"
+        [errorStateMatcher]="matcher"
+        placeholder="Enter weight"
+      />
+      @if(editFormControl.controls.weight.hasError('required')){
+      <mat-error> Weight is <strong>required</strong> </mat-error>
+      } @if(editFormControl.controls.weight.hasError('min')) {
+      <mat-error> Weight must be greater than <strong>0</strong> </mat-error>
+      }
+    </mat-form-field>
+
+    <div class="button-container">
+      <button mat-button type="button" (click)="onCancel($event)">
+        Cancel
+      </button>
+      <button mat-flat-button type="submit" color="primary">
+        {{ btnText }}
+      </button>
+    </div>
+  </form>
+</div>
